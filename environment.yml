@@ -1,0 +1,48 @@
+# Conda environment for the S2S MPAS notebooks in this folder.
+#
+# Create it with:
+#     conda env create -f environment.yml
+# then make it available as a Jupyter kernel:
+#     conda activate s2s_mpas
+#     python -m ipykernel install --user --name s2s_mpas --display-name "s2s_mpas"
+#
+# Versions are pinned to the environment these notebooks were developed with,
+# except numpy (see below). zarr must stay below 3 and intake below 2: the
+# data catalog and the zarr stores use the older formats.
+name: s2s_mpas
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy=2.2              # climpred 2.6.0 requires numpy>=2
+  - pandas=2.3.1
+  - xarray=2025.7.1
+  - cftime=1.6.4
+  - netcdf4=1.7.2
+  - zarr=2.18.7
+  - numcodecs=0.15.1
+  - bottleneck=1.5.0
+  - dask=2025.7.0
+  - distributed=2025.7.0
+  - dask-jobqueue=0.9.0
+  - bokeh=3.7.3            # dask dashboard
+  - intake=0.7.0
+  - intake-xarray=0.7.0
+  - matplotlib=3.10.3
+  - cartopy=0.24.0
+  - ultraplot=2.7.3
+  - tqdm=4.67.1
+  - ipykernel
+  # Dependencies of climpred/xskillscore, installed here so pip below does not
+  # upgrade numpy or scipy
+  - scipy=1.16.0
+  - statsmodels=0.14.5
+  - cf_xarray=0.10.6
+  - properscoring=0.1
+  - xhistogram=0.3.2
+  - pooch=1.8.2
+  - pip
+  # climpred 2.6.0 and xskillscore 0.0.29 are not on conda-forge
+  - pip:
+      - xskillscore==0.0.29
+      - climpred==2.6.0
