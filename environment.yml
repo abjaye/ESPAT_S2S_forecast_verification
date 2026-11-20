@@ -41,8 +41,10 @@ dependencies:
   - properscoring=0.1
   - xhistogram=0.3.2
   - pooch=1.8.2
+  - fsspec=2026.9.0        # with pelicanfs below, reads the data from GDEX (osdf://)
   - pip
   # climpred 2.6.0 and xskillscore 0.0.29 are not on conda-forge
   - pip:
       - xskillscore==0.0.29
       - climpred==2.6.0
+      - pelicanfs==1.5.0

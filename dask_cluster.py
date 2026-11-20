@@ -19,10 +19,21 @@ import signal
 import sys
 import time
 
+import dask
 from dask.distributed import Client
 from distributed.core import Status
 
 SCHEDULER_FILE = os.path.expandvars("$SCRATCH/dask/scheduler.json")
+
+# The scheduler can stall for ~30s while it takes in a large task graph. With
+# dask's default 30s TCP timeout, Linux then drops the connections to the
+# notebook (persisted data is lost: "lost dependencies") and to workers
+# (KilledWorker). A longer timeout lets the cluster ride out those stalls.
+# It is set for the scheduler (here), the workers (job script) and notebooks
+# (get_client, which runs this module's import).
+COMM_TIMEOUT = "300s"
+dask.config.set({"distributed.comm.timeouts.tcp": COMM_TIMEOUT,
+                 "distributed.comm.timeouts.connect": COMM_TIMEOUT})
 
 
 def get_client():
@@ -57,6 +68,10 @@ def main(settings):
         walltime=settings["WALLTIME"],
         interface="ext",
         local_directory=os.path.join(dask_dir, "pbs.$PBS_JOBID/dask/spill"),
+        job_script_prologue=[
+            f"export DASK_DISTRIBUTED__COMM__TIMEOUTS__TCP={COMM_TIMEOUT}",
+            f"export DASK_DISTRIBUTED__COMM__TIMEOUTS__CONNECT={COMM_TIMEOUT}",
+        ],
         job_extra_directives=[
             f"-o {worker_log_dir}/",
             f"-e {worker_log_dir}/",

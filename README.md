@@ -14,7 +14,7 @@ them elsewhere needs those parts adapted.
 | Data | Where it is |
 |---|---|
 | Raw hindcast output (MPAS, CESM2, CAM6), read by notebook 1 | NCAR Lustre: `/lustre/desc1/espat/s2s/`. It will be published on GDEX later. |
-| Processed zarr stores (raw/anomaly, daily/biweekly) for the models and ERA5, read by the analysis notebooks | Listed in the intake catalog `s2s_data_catalog.yml`, currently at NCAR paths. They will move to GDEX. |
+| Processed zarr stores (raw/anomaly, daily/biweekly) for the models and ERA5, read by the analysis notebooks | On GDEX (Boreas), dataset d555001, read over OSDF (`osdf:///ncar-gdex/d555001/s2s_mpas_hindcasts_zarr/`). The intake catalog `s2s_data_catalog.yml` lists them. |
 | ERA5 verification data | ERA5 daily data from the NCAR Research Data Archive, regridded to the 1° (360×181) grid. Its processed stores are in the catalog (`OBS_ERA5`). |
 | Land mask | `lmask_360x181.nc`, in this folder |
 
